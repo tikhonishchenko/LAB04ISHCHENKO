@@ -30,7 +30,8 @@ namespace LAB03ISHCHENKO
             InitializeComponent();
             //add a list of persons to personlist
             //add a list of persons to personlist
-            PersonList.ItemsSource = ViewModel.GenerateData();
+            ViewModel.GenerateData();
+            PersonList.ItemsSource = ViewModel.Persons;
             PersonList.Sorting += new DataGridSortingEventHandler(ViewModel.SortHandler);
         }
 
@@ -38,11 +39,11 @@ namespace LAB03ISHCHENKO
         {
             if (FirstName.Text.Length > 0 && LastName.Text.Length > 0 && Email.Text.Length > 0 && DatePicker.SelectedDate != null)
             {
-                ProceedButton.IsEnabled = true;
+                EnableButtons();
             }
             else
             {
-                ProceedButton.IsEnabled = false;
+                DisableButtons();
             }
         }
 
@@ -54,15 +55,9 @@ namespace LAB03ISHCHENKO
             }
             Person person = new Person(FirstName.Text, LastName.Text, Email.Text, DatePicker.SelectedDate.Value);
             person.InitializeAsync();
-            FirstNameAns.Content = "Ім'я: "+ person.Name;
-            LastNameAns.Content = "Прізвище: " + person.Surname;
-            EmailAns.Content = "Електронна пошта: " + person.EmailAddress;
-            BirthDayAns.Content = "Дата народження: " + person.DateOfBirth.ToShortDateString();
-            IsAdult.Text = "Чи повнолітній: " + person.IsAdult;
-            HoroscopeEnglish.Text = "Знак сонця: " + person.SunSign;
-            HoroscopeAsian.Text = "Знак китайського зодіаку: " + person.ChineseSign;
-            IsBirthday.Text = "Чи є сьогодні днем народження: " + person.IsBirthday;
-
+            ViewModel.AddPerson(person);
+            PersonList.ItemsSource = ViewModel.Persons;
+            PersonList.Items.Refresh();
 
         }
         
@@ -70,23 +65,37 @@ namespace LAB03ISHCHENKO
         {
             if (FirstName.Text.Length > 0 && LastName.Text.Length > 0 && Email.Text.Length > 0 && DatePicker.SelectedDate != null)
             {
-                ProceedButton.IsEnabled = true;
+                EnableButtons();
             }
             else
             {
-                ProceedButton.IsEnabled = false;
+                DisableButtons();
             }
+        }
+
+        private void DisableButtons()
+        {
+            ProceedButton.IsEnabled = false;
+            UpdateButton.IsEnabled = false;
+            DeleteButton.IsEnabled = false;
+        }
+
+        private void EnableButtons()
+        {
+            ProceedButton.IsEnabled = true;
+            UpdateButton.IsEnabled = true;
+            DeleteButton.IsEnabled = true;
         }
 
         private void LastName_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (FirstName.Text.Length > 0 && LastName.Text.Length > 0 && Email.Text.Length > 0 && DatePicker.SelectedDate != null)
             {
-                ProceedButton.IsEnabled = true;
+                EnableButtons();
             }
             else
             {
-                ProceedButton.IsEnabled = false;
+                DisableButtons();
             }
         }
 
@@ -94,12 +103,45 @@ namespace LAB03ISHCHENKO
         {
             if (FirstName.Text.Length > 0 && LastName.Text.Length > 0 && Email.Text.Length > 0 && DatePicker.SelectedDate != null)
             {
-                ProceedButton.IsEnabled = true;
+                EnableButtons();
             }
             else
             {
-                ProceedButton.IsEnabled = false;
+                DisableButtons();
             }
+        }
+
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            Person person = new Person(FirstName.Text, LastName.Text, Email.Text, DatePicker.SelectedDate.Value);
+            person.InitializeAsync();
+            ViewModel.UpdatePerson(person);
+            PersonList.ItemsSource = ViewModel.Persons;
+            PersonList.Items.Refresh();
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            Person person = new Person(FirstName.Text, LastName.Text, Email.Text, DatePicker.SelectedDate.Value);
+            ViewModel.RemovePerson(person);
+            //update personlist
+            PersonList.ItemsSource = ViewModel.Persons;
+            PersonList.Items.Refresh();
+
+
+        }
+
+        private void PersonList_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            if (PersonList.SelectedItem != null)
+            {
+                Person person = (Person)PersonList.SelectedItem;
+                FirstName.Text = person.Name;
+                LastName.Text = person.Surname;
+                Email.Text = person.EmailAddress;
+                DatePicker.SelectedDate = person.DateOfBirth;
+            }
+
         }
     }
 }

@@ -23,12 +23,14 @@
         <Label Content="Дата народження" HorizontalAlignment="Left" Margin="30,130,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         <Label Content="E-mail" HorizontalAlignment="Left" Margin="30,181,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         <TextBox x:Name="Email" HorizontalAlignment="Left" Margin="30,207,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="Email_TextChanged" Grid.ColumnSpan="2"/>
-        <Button x:Name="ProceedButton" Content="Proceed" HorizontalAlignment="Left" Margin="30,236,0,0" VerticalAlignment="Top" Width="83" Click="ProceedButton_Click" IsEnabled="False" Grid.ColumnSpan="2"/>
+        <Button x:Name="ProceedButton" Content="Add" HorizontalAlignment="Left" Margin="30,236,0,0" VerticalAlignment="Top" Width="83" Click="ProceedButton_Click" IsEnabled="False" Grid.ColumnSpan="2"/>
         <Label x:Name="FirstNameAns" Content="Ім'я" HorizontalAlignment="Left" Margin="115,45,0,0" VerticalAlignment="Top" Grid.Column="1"/>
         <Label x:Name="LastNameAns" Content="Прізвище" HorizontalAlignment="Left" Margin="115,71,0,0" VerticalAlignment="Top" Grid.Column="1"/>
         <Label x:Name="BirthDayAns" Content="Дата народження" HorizontalAlignment="Left" Margin="115,97,0,0" VerticalAlignment="Top" Grid.Column="1"/>
         <Label x:Name="EmailAns" Content="E-mail" HorizontalAlignment="Left" Margin="115,123,0,0" VerticalAlignment="Top" Grid.Column="1"/>
-        <DataGrid x:Name="PersonList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="335,0,0,0" Grid.Column="1"/>
+        <DataGrid x:Name="PersonList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="335,0,0,0" Grid.Column="1" SelectionChanged="PersonList_SelectionChanged_1"/>
+        <Button x:Name="UpdateButton" Content="Update" HorizontalAlignment="Left" Margin="30,261,0,0" VerticalAlignment="Top" Width="83" IsEnabled="False" Grid.ColumnSpan="2" Click="UpdateButton_Click"/>
+        <Button x:Name="DeleteButton" Content="Delete" HorizontalAlignment="Left" Margin="30,286,0,0" VerticalAlignment="Top" Width="83" IsEnabled="False" Grid.ColumnSpan="2" Click="DeleteButton_Click"/>
 
     </Grid>
 </Window>

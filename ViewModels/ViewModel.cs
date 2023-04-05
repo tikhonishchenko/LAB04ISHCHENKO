@@ -15,6 +15,8 @@ namespace LAB03ISHCHENKO.ViewModels
 {
     internal class ViewModel
     {
+        public static List<Person> Persons = new List<Person>();
+
         private static ListSortDirection? sortDirection = null;
 
         public static bool CalculateAge(DateTime? birthDate)
@@ -42,9 +44,8 @@ namespace LAB03ISHCHENKO.ViewModels
             return false;
         }
 
-        internal static IEnumerable GenerateData()
+        internal static void GenerateData()
         {
-            //create 50 person list 
             List<Person> people = new List<Person>
             {
                 new Person("John", "Doe", "1@google.com",new DateTime(1991, 11, 21)),
@@ -99,13 +100,11 @@ namespace LAB03ISHCHENKO.ViewModels
                 new Person("Grace", "Li", "73@google.com", new DateTime(2006, 7, 8))
             };
 
-            return people.AsEnumerable();
+            Persons = people;
         }
 
         internal static void SortHandler(object sender, DataGridSortingEventArgs e)
         {
-            //use LINQ to sort
-
             var data = (IEnumerable<Person>)((DataGrid)sender).ItemsSource;
             var sortMemberPath = e.Column.SortMemberPath;
 
@@ -125,5 +124,19 @@ namespace LAB03ISHCHENKO.ViewModels
             ((DataGrid)sender).ItemsSource = sortedData;
         }
 
+        internal static void AddPerson(Person person)
+        {
+            Persons.Add(person);
+        }
+
+        internal static void RemovePerson(Person person) {
+            Persons.RemoveAll(x => x.Name == person.Name && x.Surname == person.Surname && x.DateOfBirth == person.DateOfBirth && x.EmailAddress == person.EmailAddress);
+        }
+
+        internal static void UpdatePerson(Person person)
+        {
+            var index = Persons.FindIndex(x => x.Name == person.Name && x.Surname == person.Surname);
+            Persons[index] = person;
+        }
     }
 }
