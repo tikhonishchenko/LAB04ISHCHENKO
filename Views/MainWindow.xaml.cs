@@ -30,7 +30,9 @@ namespace LAB03ISHCHENKO
             InitializeComponent();
             //add a list of persons to personlist
             //add a list of persons to personlist
-            ViewModel.GenerateData();
+            ViewModel.LoadData();
+            if(ViewModel.Persons.Count == 0)
+                ViewModel.GenerateData();
             PersonList.ItemsSource = ViewModel.Persons;
             PersonList.Sorting += new DataGridSortingEventHandler(ViewModel.SortHandler);
         }
@@ -58,7 +60,7 @@ namespace LAB03ISHCHENKO
             ViewModel.AddPerson(person);
             PersonList.ItemsSource = ViewModel.Persons;
             PersonList.Items.Refresh();
-
+            ViewModel.SaveData();
         }
         
         private void FirstName_TextChanged(object sender, TextChangedEventArgs e)
@@ -118,6 +120,7 @@ namespace LAB03ISHCHENKO
             ViewModel.UpdatePerson(person);
             PersonList.ItemsSource = ViewModel.Persons;
             PersonList.Items.Refresh();
+            ViewModel.SaveData();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -127,7 +130,7 @@ namespace LAB03ISHCHENKO
             //update personlist
             PersonList.ItemsSource = ViewModel.Persons;
             PersonList.Items.Refresh();
-
+            ViewModel.SaveData();
 
         }
 

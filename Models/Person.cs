@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace LAB03ISHCHENKO.Models
 {
+    [Serializable]
     internal class Person
     {
         private string _name;

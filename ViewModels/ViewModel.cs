@@ -10,6 +10,9 @@ using System.Collections;
 using LAB03ISHCHENKO.Models;
 using System.ComponentModel;
 using System.Windows.Data;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+using System.Runtime.Serialization;
 
 namespace LAB03ISHCHENKO.ViewModels
 {
@@ -42,6 +45,27 @@ namespace LAB03ISHCHENKO.ViewModels
                 }
             }
             return false;
+        }
+
+        public static void SaveData()
+        {
+            var formatter = new BinaryFormatter();
+            using (var stream = new FileStream("data.dat", FileMode.Create))
+            {
+                formatter.Serialize(stream, Persons);
+            }
+        }
+
+        public static void LoadData()
+        {
+            if (File.Exists("data.dat"))
+            {
+                var formatter = new BinaryFormatter();
+                using (var stream = new FileStream("data.dat", FileMode.Open))
+                {
+                    Persons = (List<Person>)formatter.Deserialize(stream);
+                }
+            }
         }
 
         internal static void GenerateData()
